@@ -77,8 +77,15 @@ define([
          */
         _initializeOptions: function () {
             var options = this.options,
-                gallery = $(options.mediaGallerySelector),
-                priceBoxOptions = $(this.options.priceHolderSelector).priceBox('option').priceConfig || null;
+                gallery = $(options.mediaGallerySelector);
+
+            // Added this line to avoid this JS eror: priceBox prior to initialization; attempted to call method 'option'
+            // based on this SO thread: http://stackoverflow.com/a/13520303/680920
+            var priceBoxElt = $(this.options.priceHolderSelector);
+
+            priceBoxElt.priceBox();
+
+            var priceBoxOptions = priceBoxElt.priceBox('option').priceConfig || null;
 
             if (priceBoxOptions && priceBoxOptions.optionTemplate) {
                 options.optionTemplate = priceBoxOptions.optionTemplate;
